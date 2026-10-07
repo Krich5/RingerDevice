@@ -112,4 +112,4 @@ In **Control Hub → Contact Center → Desktop Layouts**, upload the layout and
 
 ## License
 
-Released under the [MIT License](LICENSE).
+See [LICENSE](LICENSE).
