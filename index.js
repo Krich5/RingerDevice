@@ -7,7 +7,7 @@
   const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
 
   const ICON_ATTRS = 'viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
-  const BELL_ICON = `<svg ${ICON_ATTRS} stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
+  const TRIGGER_ICON = `<svg class="bell" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="bell-body" d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path class="slash" d="M4 4l16 16"/></svg>`;
   const SAVE_ICON = `<svg ${ICON_ATTRS} stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>`;
   const CHECK_ICON = `<svg ${ICON_ATTRS} stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>`;
 
@@ -22,6 +22,9 @@
       --sr-accent: #007aa3;
       --sr-accent-hover: #005e7d;
       --sr-on: #24ab31;
+      --sr-lit: #d99100;
+      --sr-lit-border: rgba(217, 145, 0, 0.6);
+      --sr-lit-glow: rgba(255, 190, 40, 0.55);
       --sr-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
       display: inline-flex;
       position: relative;
@@ -39,19 +42,28 @@
       --sr-hover: rgba(255, 255, 255, 0.08);
       --sr-accent: #00a0d1;
       --sr-accent-hover: #33b3da;
+      --sr-lit: #ffd24a;
+      --sr-lit-border: rgba(255, 210, 74, 0.6);
+      --sr-lit-glow: rgba(255, 210, 74, 0.6);
       --sr-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     }
     [hidden] { display: none !important; }
     button { font: inherit; color: inherit; cursor: pointer; }
 
     .trigger {
-      display: inline-flex; align-items: center; gap: 6px;
-      height: 32px; padding: 0 12px; border-radius: 16px;
-      border: 1px solid var(--sr-border); background: transparent; white-space: nowrap;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-sizing: border-box; width: 34px; height: 34px; padding: 0; border-radius: 8px;
+      border: 1px solid var(--sr-border); background: transparent; color: var(--sr-muted);
+      transition: color 0.15s, border-color 0.15s, box-shadow 0.15s, background 0.15s;
     }
     .trigger:hover, .trigger[aria-expanded="true"] { background: var(--sr-hover); }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sr-muted); opacity: 0.6; }
-    .dot.on { background: var(--sr-on); opacity: 1; }
+    .trigger:focus-visible { outline: 2px solid #1170cf; outline-offset: 1px; }
+    .trigger .bell-body { fill: none; transition: fill 0.15s; }
+    .trigger .slash { display: block; }
+    .trigger.on { color: var(--sr-lit); border-color: var(--sr-lit-border); }
+    .trigger.on .bell { filter: drop-shadow(0 0 4px var(--sr-lit-glow)); }
+    .trigger.on .bell-body { fill: currentColor; }
+    .trigger.on .slash { display: none; }
 
     .panel {
       position: absolute; top: calc(100% + 8px); right: 0; z-index: 1000;
@@ -101,8 +113,8 @@
 
   const TEMPLATE = `
     <style>${STYLES}</style>
-    <button class="trigger" aria-expanded="false">
-      ${BELL_ICON}<span>Ringing Device</span><span class="dot"></span>
+    <button class="trigger" aria-expanded="false" aria-label="Ringing Device settings">
+      ${TRIGGER_ICON}
     </button>
     <audio loop preload="auto"></audio>
     <div class="panel" role="dialog" aria-label="Ringing Device settings" hidden>
@@ -141,7 +153,7 @@
       root.innerHTML = TEMPLATE;
       const $ = (s) => root.querySelector(s);
       this.els = {
-        trigger: $(".trigger"), dot: $(".dot"), ring: $("audio"), panel: $(".panel"),
+        trigger: $(".trigger"), ring: $("audio"), panel: $(".panel"),
         toggle: $(".switch"), select: $("select"), save: $(".icon-btn"),
         status: $(".status"), error: $(".error"), test: $(".test"),
       };
@@ -280,7 +292,7 @@
       const dirty = this.pendingId !== this.deviceId;
       e.trigger.setAttribute("aria-expanded", String(this.open));
       e.trigger.title = this.isActive ? "Ringing Device is on" : "Ringing Device is off";
-      e.dot.classList.toggle("on", this.isActive);
+      e.trigger.classList.toggle("on", this.isActive);
       e.panel.hidden = !this.open;
       e.toggle.setAttribute("aria-checked", String(this.isActive));
       e.save.className = "icon-btn " + (dirty ? "dirty" : "saved");
