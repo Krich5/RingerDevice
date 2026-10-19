@@ -7,7 +7,7 @@
   const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
 
   const ICON_ATTRS = 'viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
-  const TRIGGER_ICON = `<svg class="bell" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="bell-body" d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path class="slash" d="M4 4l16 16"/></svg>`;
+  const TRIGGER_ICON = `<svg class="speaker" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="speaker-body" d="M11 5 6 9H3v6h3l5 4z"/><g class="waves"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.6 5.4a9.5 9.5 0 0 1 0 13.2"/></g><g class="mute"><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/></g></svg>`;
   const SAVE_ICON = `<svg ${ICON_ATTRS} stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>`;
   const CHECK_ICON = `<svg ${ICON_ATTRS} stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>`;
 
@@ -53,17 +53,19 @@
     .trigger {
       display: inline-flex; align-items: center; justify-content: center;
       box-sizing: border-box; width: 34px; height: 34px; padding: 0; border-radius: 8px;
-      border: 1px solid var(--sr-border); background: transparent; color: var(--sr-muted);
-      transition: color 0.15s, border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      border: none; background: transparent; color: var(--sr-muted);
+      transition: color 0.15s, background 0.15s;
     }
     .trigger:hover, .trigger[aria-expanded="true"] { background: var(--sr-hover); }
     .trigger:focus-visible { outline: 2px solid #1170cf; outline-offset: 1px; }
-    .trigger .bell-body { fill: none; transition: fill 0.15s; }
-    .trigger .slash { display: block; }
-    .trigger.on { color: var(--sr-lit); border-color: var(--sr-lit-border); }
-    .trigger.on .bell { filter: drop-shadow(0 0 4px var(--sr-lit-glow)); }
-    .trigger.on .bell-body { fill: currentColor; }
-    .trigger.on .slash { display: none; }
+    .trigger .speaker-body { fill: none; transition: fill 0.15s; }
+    .trigger .waves { display: none; }
+    .trigger .mute { display: block; }
+    .trigger.on { color: var(--sr-lit); }
+    .trigger.on .speaker { filter: drop-shadow(0 0 4px var(--sr-lit-glow)); }
+    .trigger.on .speaker-body { fill: currentColor; }
+    .trigger.on .waves { display: block; }
+    .trigger.on .mute { display: none; }
 
     .panel {
       position: absolute; top: calc(100% + 8px); right: 0; z-index: 1000;

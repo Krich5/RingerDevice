@@ -6,7 +6,7 @@ A Webex Contact Center (WxCC) Agent Desktop header widget that plays a ringtone 
 
 ## What it does
 
-- Adds a bell button to the desktop header, shaped like the Cisco state bar. The bell is **lit** (filled, amber, with a soft glow) when the ringer is on, and dim with a slash through it when it's off. Hover over it to see the state.
+- Adds a speaker button to the desktop header, with no outline, like the Desktop's own icon buttons. The speaker is **lit** (filled, amber, with sound waves and a soft glow) when the ringer is on, and dim with a mute cross when it's off. Hover over it to see the state.
 - Clicking the button opens a small settings panel:
   - **On/off switch.** Turns the extra ringer on or off.
   - **Ring on this device.** A dropdown of every audio output the browser can see (speakers, headsets, monitors, etc.), with a **Save** button. The button turns blue while there's an unsaved change and shows a green check once it's saved.
@@ -84,7 +84,7 @@ In **Control Hub → Contact Center → Desktop Layouts**, upload the layout and
 
 ### 4. Agent setup (one time)
 
-1. Click the bell in the header.
+1. Click the speaker in the header.
 2. Turn the switch **on**.
 3. Pick the speaker to ring on and click **Save**.
 4. Click **Test ring** to confirm it's audible.
