@@ -2,7 +2,7 @@
 
 A Webex Contact Center (WxCC) Agent Desktop header widget that plays a ringtone on an **audio device of the agent's choosing** whenever a contact or consult is offered. Agents who wear a headset can have incoming calls also ring out loud on their laptop or desk speakers, so they don't miss a call while the headset is off.
 
-<!-- Optional: add a screenshot, e.g. ![Ringing Device panel](screenshot.png) -->
+![The ringer speaker button and its settings panel](images/ringer-device.webp)
 
 ## What it does
 
